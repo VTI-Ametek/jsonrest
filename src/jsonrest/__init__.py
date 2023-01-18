@@ -153,9 +153,9 @@ class VTIInstrumentErrorArgs(VTIInstrumentError):
         return 'Instrument Error 0x{:08x} for {} with message args {}'.format(code, self.resource, self.args)
 
 class VTIREST(JSONREST):
-    """Wraps the JSONREST class to provide easier access to the JSON-REST APIs of VTI Instruments products.
+    """Wraps the :py:class:`JSONREST` class to provide easier access to the JSON-REST APIs of VTI Instruments products.
 
-    Constructs the proper base URI for a certain slot name automatically, and properly handles the HTTP 240 status code that VTI Instruments products use to indicate an error, querying the error queue and raising a VTIInstrumentError exception using the result.
+    Constructs the proper base URI for a certain slot name automatically, and properly handles the HTTP 240 status code that VTI Instruments products use to indicate an error, querying the error queue and raising a :py:class:`VTIInstrumentError` exception using the result.
     """
     def __init__(self, host, slot='inst0', path='', members=None, session=None): # pylint: disable=too-many-arguments
         # Type (str, str, str, list[str], requests.Session)
@@ -186,7 +186,7 @@ class VTIREST(JSONREST):
 
     def _check_error(self):
         # Type () -> None
-        """Check the error queue for the connected instrument slot. If there is an item in the queue, it will be removed, and a VTIVTIInstrumentError will be raised containing the details.
+        """Check the error queue for the connected instrument slot. If there is an item in the queue, it will be removed, and a :py:class:`VTIInstrumentError` will be raised containing the details.
 
 :raise jsonrest.VTIInstrumentError: The next item from the error queue, if any.
         """
