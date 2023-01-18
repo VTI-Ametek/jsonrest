@@ -27,6 +27,11 @@ JSONREST is available on PyPI:
 
     $ python -m pip install jsonrest
 
+Documentation
+-------------
+
+Full documentation is available at `jsonrest.readthedocs.io <https://jsonrest.readthedocs.io/>`_.
+
 Supported Versions
 ------------------
 
