@@ -155,7 +155,14 @@ class VTIInstrumentErrorArgs(VTIInstrumentError):
 class VTIREST(JSONREST):
     """Wraps the :py:class:`JSONREST` class to provide easier access to the JSON-REST APIs of VTI Instruments products.
 
-    Constructs the proper base URI for a certain slot name automatically, and properly handles the HTTP 240 status code that VTI Instruments products use to indicate an error, querying the error queue and raising a :py:class:`VTIInstrumentError` exception using the result.
+Constructs the proper base URI for a certain slot name automatically, and properly handles the HTTP 240 status code that VTI Instruments products use to indicate an error, querying the error queue and raising a :py:class:`VTIInstrumentError` exception using the result.
+
+For example, to print the serial number of a card in slot 2 of a controller at hostname "my-inst", do the following:
+
+.. code-block:: python
+
+    slot2 = VTIREST('my-inst', 'slot0_2')
+    print(slot2.common.serial)
     """
     def __init__(self, host, slot='inst0', path='', members=None, session=None): # pylint: disable=too-many-arguments
         # Type (str, str, str, list[str], requests.Session)
