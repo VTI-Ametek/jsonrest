@@ -1,25 +1,34 @@
 VERSION := $(shell awk '/version/ {print $$3}' setup.cfg)
 
 PY_SRC = src/jsonrest/*.py
-PY_CFG = setup.cfg pyproject.toml README.md LICENSE
+PY_CFG = setup.cfg pyproject.toml README.rst LICENSE
 
+VENV_DIR = venv
+VENV_DONE = $(VENV_DIR)/.done
+VENV_ACT = $(VENV_DIR)/bin/activate
 DIST_DIR = dist
 WHL = $(DIST_DIR)/jsonrest-$(VERSION)-py3-none-any.whl
-DOC_DIR = doc
-TOP_DOC = $(DOC_DIR)/jsonrest.html
-EXTRA_DOC_FILES = vxitech.png
+DOC_DIR = docs
+DOC_SRC = $(DOC_DIR)/*.py $(DOC_DIR)/*.rst $(DOC_DIR)/_static/* $(DOC_DIR)/_templates/**
+DOCS = $(DIST_DIR)/jsonrest-$(VERSION)-docs.zip
 
-all: $(WHL) $(TOP_DOC)
+all: $(WHL) $(DOCS)
 
-$(WHL): $(PY_CFG) $(PY_SRC)
-	python3 -m build
+$(VENV_DONE): requirements.txt
+	test -d $(VENV_DIR) || python3 -m venv $(VENV_DIR)
+	. $(VENV_ACT) && pip install -r $^
+	touch $@
 
-$(TOP_DOC): $(PY_SRC) $(EXTRA_DOC_FILES) README.md
-	pdoc src/jsonrest -o $(DOC_DIR) --logo vxitech.png
-	cp $(EXTRA_DOC_FILES) $(DOC_DIR)
+$(WHL): $(VENV_DONE) $(PY_CFG) $(PY_SRC)
+	. $(VENV_ACT) && python3 -m build
+
+$(DOCS): $(VENV_DIR) $(PY_SRC) $(DOC_SRC) README.rst
+	. $(VENV_ACT) && make -C $(DOC_DIR) html
+	cd $(DOC_DIR)/_build/html && zip -r ../../../$@ .
 
 lint:
 	python2 -m pylint src/jsonrest
 
 clean:
-	rm -rf $(DIST_DIR) $(DOC_DIR) ./src/jsonrest/__pycache__ ./src/jsonrest.egg-info
+	rm -rf $(VENV_DIR) $(DIST_DIR) ./src/jsonrest/__pycache__ ./src/jsonrest.egg-info
+	make -C $(DOC_DIR) clean
