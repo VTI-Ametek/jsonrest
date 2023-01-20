@@ -21,11 +21,11 @@ JSONREST exposes the REST API as an object-oriented interface, with the object h
 Installing
 ----------
 
-JSONREST is available on PyPI:
+JSONREST is available on `PyPI <https://pypi.org/project/vti-jsonrest/>`_:
 
 .. code-block:: sh
 
-    $ python -m pip install jsonrest
+    $ python -m pip install vti-jsonrest
 
 Documentation
 -------------
