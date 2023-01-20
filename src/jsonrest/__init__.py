@@ -1,6 +1,7 @@
 '''
 .. include:: ../README.rst
 '''
+__version__ = "1.0.0"
 import requests
 
 class JSONREST(object):

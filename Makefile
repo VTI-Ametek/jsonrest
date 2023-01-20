@@ -1,4 +1,4 @@
-VERSION := $(shell awk '/version/ {print $$3}' setup.cfg)
+VERSION := $(shell PYTHONPATH=src python3 -c 'import jsonrest; print(jsonrest.__version__)')
 
 PY_SRC = src/jsonrest/*.py
 PY_CFG = setup.cfg pyproject.toml README.rst LICENSE
